@@ -3,7 +3,7 @@
 This program shows an example of text messaging from inside a robot program.
 The program executes a simple move three times, sending a text to the destination phone number each time it completes the move.
 
-This example is discussed on the Tormach user forums here: 
+This example is discussed on the Tormach user forums here: https://forums.tormach.com/t/example-program-sending-a-text-message-using-the-twilio-api/38 
 
 ## Prerequisites
 To run this example code you will need to sign up for an account with Twilio.  New accounts get a $10 credit, no CC information required as of 8/2021.  You must get from Twilio the following information:
