@@ -7,6 +7,8 @@ This program demonstrates the differences between three move types:
 
 It also demonstrates creating a virtual obstacle using the moveit commander planning scene interface.
 
+This example program is discussed on the Tormach user forums here: https://forums.tormach.com/t/example-program-showing-different-move-types-obstacle-creation/37
+
 ## Libraries Used
 geometry_msgs.msg - http://wiki.ros.org/geometry_msgs
 moveit_commander.PlanningSceneInterface - http://docs.ros.org/en/kinetic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html

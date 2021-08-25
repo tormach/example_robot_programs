@@ -2,6 +2,8 @@
 
 This program demonstrates using Google's text-to-speech library (gTTS) and an MP3 player (mpg321) to convert a text string to an MP3 file and play it.  I've found it helpful to ask the robot to tell me what it's doing while programming certain tasks, e.g. training the Multigrip gripper.  
 
+This example is discussed on the Tormach user forums here: https://forums.tormach.com/t/example-program-robot-speech/36
+
 ## Libraries Used
 MP3 player mpg321: 	http://mpg321.sourceforge.net/
 Google text-to-speech: 	https://gtts.readthedocs.io/en/latest/
