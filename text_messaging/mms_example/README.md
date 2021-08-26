@@ -1,4 +1,4 @@
-# Text Messaging Example
+# Text Messaging Example With Photo
 This program contains an example of sending a photo taken from any attached USB camera or webcam via text message from the robot.  It requires a Twilio account, a Dropbox account (to host the image file and create a URL link for the multi-media text message).
 
 
