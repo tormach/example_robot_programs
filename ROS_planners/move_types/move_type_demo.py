@@ -75,7 +75,7 @@ def do_linear_moves():
 
 
 def main():
-    create_box()
+    remove_box()
 
     if g.free_moves:
         if g.notify:
