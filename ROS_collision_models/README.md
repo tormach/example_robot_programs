@@ -1,3 +1,6 @@
+https://user-images.githubusercontent.com/5693518/137386699-f34b6c8c-4467-44ec-973f-5206d730b5b2.mp4
+
+
 # Adding a custom tool to the robot's collision model
 This program contains an example of adding a custom STL file to the collision scene and attaching it to the robot's tool flange.
 
