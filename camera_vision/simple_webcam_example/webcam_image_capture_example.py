@@ -23,7 +23,14 @@ def main():
     notify("Here is your photo: ", warning=True, image_path=filepath)
 
 def take_snapshot(filename):
-    videoCaptureObject = cv2.VideoCapture(0)
+    # select the video device index (usually '0', but can be higher number)
+    camera_index = 0
+    # open the connection to camera and create control object
+    videoCaptureObject = cv2.VideoCapture(camera_index)
+    # check we are connected and hard fail if not
+    if not videoCaptureObject.isOpened():
+        notify(f"Cannot access the camera on index '{camera_index}'. "
+               f"Please, check the /dev/video{camera_index} device.", error=True)
     result = True
     while (result):
         ret, frame = videoCaptureObject.read()
