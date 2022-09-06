@@ -1,4 +1,6 @@
 from robot_command.rpl import *
+
+set_units("mm", "deg")
 import os, datetime
 
 try:
@@ -9,16 +11,10 @@ except:
         pip3.install("opencv-python")
     import cv2
 
-set_units("mm", "deg")
-
 def main():
-    # get the current working directory (so we know where the jpg file is saved)
     cwd = os.getcwd()
-    # let's name the jpg 'test_photo' and add a timestamp
     filename = "test_photo" + str(datetime.datetime.now()) + ".jpg"
-    # take the photo
     take_snapshot(filename)
-    # give the notify popup the full path to the file, relative paths not working as of 10.13.21
     filepath = os.path.join(cwd, filename)
     notify("Here is your photo: ", warning=True, image_path=filepath)
 
@@ -33,6 +29,8 @@ def take_snapshot(filename):
                f"Please, check the /dev/video{camera_index} device.", error=True)
     result = True
     while (result):
+        ret, frame = videoCaptureObject.read()
+        # throw away first frame because some cameras return a 'blank' frame for the first read
         ret, frame = videoCaptureObject.read()
         cv2.imwrite(filename, frame)
         result = False
