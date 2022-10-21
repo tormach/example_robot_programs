@@ -37,7 +37,7 @@ def create_box():
     scene.remove_world_object('box')
     sleep(0.5)
     box_pose = Pose(x=0.550, y=0.0, z=0.3)
-    new_box("box", box_pose, [0.2, 0.1, 0.6])
+    new_box("box", box_pose, [0.2, 0.05, 0.6])
     sleep(1.0)
 
 
@@ -75,7 +75,7 @@ def do_linear_moves():
 
 
 def main():
-    remove_box()
+    create_box()
 
     if g.free_moves:
         if g.notify:
