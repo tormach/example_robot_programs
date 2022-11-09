@@ -5,7 +5,7 @@ This program demonstrates how a user can read values from the robot's Hardware A
 In this particular example we use the HAL library to access the torque value for the ZA6 robot's 2nd joint.  Any one of hundreds of HAL pin values, parameters, or signals can be displayed in a similar fashion.  For a list of available values, click the HALMETER button on the settings screen.  
 
 
-This example is discussed on the Tormach user forums here: 
+This example is discussed on the Tormach user forums here: https://forums.tormach.com/t/example-program-retrieve-instantaneous-joint-torque-during-robot-program-execution/291
 
 ## Libraries Used
 https://www.machinekit.io/docs/index-HAL/
