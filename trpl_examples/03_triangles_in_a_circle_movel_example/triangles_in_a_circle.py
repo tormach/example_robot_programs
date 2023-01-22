@@ -1,5 +1,6 @@
 '''
-Example one: movel() and pose()/p[]
+Example 1.3: movel() and pose()/p[]
+In this example we will be drawing a number of triangles in a circle.
 '''
 
 from robot_command.rpl import *
