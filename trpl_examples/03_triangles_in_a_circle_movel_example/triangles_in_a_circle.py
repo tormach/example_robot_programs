@@ -13,9 +13,9 @@ def main():
     #First we need to make sure we have the right user and tool frame
     
     #Below we create a tool frame to make sure it's oriented correctly. 
-    #Since the tool frame's "z" axis is pointing down by defulat we need to rotate it to point up for what we are going to be doing. 
+    #Since the tool frame's "z" axis is pointing down by defulat we need to rotate it to point up for what we are doing. 
     set_tool_frame("tool_frame1", orientation=p[0,0,0,180,0,0]) 
-    change_tool_frame("tool_frame1") #After creating it the tool frame we make sure we are using it.
+    change_tool_frame("tool_frame1") #After creating it the tool frame we make sure we use it.
     
     #Make sure you set up a user frame, call it "user_frame1" or any name you wish
     #Learn how to set up a user frame here: https://www.youtube.com/watch?v=HHvmWXkA0xs
@@ -53,8 +53,8 @@ def main():
         movel(p[x, y, 0, 0, 0, 0 ]) # Move to the 2nd point
    	    
         # calculate the 3rd point of the triangle...
-        temp_angle = curr_angle + math.radians(30)# Create a temporary angle offset 30degs from the current angle 
-        # Use the temp angle to Calculate the 3rd point of the triangle
+        temp_angle = curr_angle + math.radians(30) # Create a temporary angle  thats offset 30degs from the current angle 
+        # Use the temporary angle to Calculate the 3rd point
         next_x = math.cos(temp_angle)*v_scl/2
         next_y = math.sin(temp_angle)*v_scl/2
         
@@ -62,6 +62,7 @@ def main():
         next_x = next_x + homeOffset_x
         next_y = next_y + homeOffset_y
         movel(p[next_x, next_y, 0, 0, 0, 0 ]) # Move to the 3rd point of the triangle
+        # We could have included the homeOffset directly in the (next_x, next_y) calculation above like: next_x = math.cos(temp_angle)*v_scl/2 + homeOffset_x
 
    	    # Adjust the current angle by adding an offset (this will be used to draw the next triangle away from the previous one)
         curr_angle = curr_angle + angleOffset
