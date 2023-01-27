@@ -9,6 +9,7 @@ from robot_command.rpl import *
 # NOTE: always remember to set your units
 set_units("mm", "deg")
 
+# The main function runs in a loop
 def main():
     '''
      As a new user you might want to run this program without worrying about setting up user frames or anything.
