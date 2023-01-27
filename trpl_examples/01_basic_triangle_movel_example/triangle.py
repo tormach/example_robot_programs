@@ -38,6 +38,14 @@ def main():
     movej(waypoint_1)  # move to waypoint_1
     movel(waypoint_2, velocity=60, accel_scale=1)  # move to waypoint_2 with velocity at 60 and acceleration(0 - 1) at 1 or 100% 
     movel(waypoint_3, velocity=1000, duration=5)    # move to waypoint_3 with velocity at 1000 and within 5 sec
+
+    '''
+    Notes: Below we set "strict_limits" to true, meaning any velocity command
+    too high for the robot to physically achieve given the limitation of the
+    maximum joint velocities will cause an error and the program to stop.
+    Feel free to change "strict_limits" to "false" or change the velocity to
+    something less than 1000 to see the effects.
+    '''
     movel(waypoint_1, velocity=1000, strict_limits=True)  # move to waypoint_3 with velocity at 1000 and within 5 sec
 
     exit()  # After we are done we exit/stop the main() loop
