@@ -1,8 +1,8 @@
 # Example 3: triangles_in_a_circle_movel_example
 This example will be showing you how to draw triangles in a circle using `movel() and Pose()/p[]`.
-The vidoe below shows you what the script does. In your case if you download and run this script the robot will perform the movements at a safe distance above your table.
+The video below shows you what the script does. In your case if you download and run this script the robot will perform the movements at a safe distance above your table.
 So make sure the table is clear. To make the robot write on paper just like in the video you will need to properly set up a user frame. 
-Learn how to set up a user frame from this youtube video: https://www.youtube.com/watch?v=i_zQoZG7DYQ
+Learn how to set up a user frame from this YouTube video: https://www.youtube.com/watch?v=i_zQoZG7DYQ
 
 https://user-images.githubusercontent.com/34427350/215873810-18537c1a-d251-449d-8507-dfbc40fde816.mp4
 
