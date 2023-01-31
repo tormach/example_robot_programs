@@ -13,7 +13,7 @@ In the example we learn about:
 * `notify()`: Used to display popup messages on a screen
 * `set_units()`: Set units that will be used in a program
 * `set_user_frame()`: Used to create a new user frame 
-* `change_user_frame`: Used to set the current user frame that will be used in a program
+* `change_user_frame()`: Used to set the current user frame that will be used in a program
 * `movej()`: A joint move command. With this command, the robot end effector will move between points using the available efficient path,  also considering angle limits for each joint.
 
 
