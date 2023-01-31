@@ -1,4 +1,4 @@
-# Basic_Triangle_move_example
+# Example 01: basic_Triangle_movel_example
 This is a basic example showing how to use `movel()` and `Pose()/p[]`. To make things easy a triangle is used as a path pattern.
 If you are testing out the script just to see what it does it should work without configuring anything. Don't forget to clear the robot's environment to make sure it doesn't run into things. 
 
