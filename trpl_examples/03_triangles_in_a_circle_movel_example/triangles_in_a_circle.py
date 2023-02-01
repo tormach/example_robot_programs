@@ -9,7 +9,7 @@ import math  # This will give us access to math functions like cos(), sin(), etc
 # Don't forget to set your units
 set_units("mm", "deg")
 
-
+# The main function runs in a loop
 def main():
     # We need to make sure we have the right user and tool frame
     '''

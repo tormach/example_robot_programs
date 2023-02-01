@@ -9,7 +9,7 @@ import math  # This will give us access to math functions like cos(), sin(), etc
 # Setting our units is very important
 set_units("mm", "deg")
 
-
+# The main function runs in a loop
 def main():
     # First we need to make sure we have the right user and tool frame
     '''
@@ -20,7 +20,7 @@ def main():
      Learn how to set up a user frame here: https://www.youtube.com/watch?v=HHvmWXkA0xs
     '''
     set_user_frame("user_frame1", position=p[400,-200,550,0,0,0])  # Create user frame at position x = 400, y = -200 and z = 550
-    change_user_frame("user_frame1") # We use it
+    change_user_frame("user_frame1")  # We use it
     '''
     Notify() is a function that throws popup messages on a screen. 
     In this case we are using it to alert you about the created user 
