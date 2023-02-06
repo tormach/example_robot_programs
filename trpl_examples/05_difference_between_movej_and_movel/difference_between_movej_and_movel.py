@@ -1,6 +1,7 @@
 '''
 Example 5: movej(), movel() and Joints()/j[]
-This example demonstrates the difference between a joint move and linear move.
+This example demonstrates the difference between a joint move and linear move
+using Joints()/j[] waypoints.
 '''
 
 from robot_command.rpl import *
