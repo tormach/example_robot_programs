@@ -17,7 +17,7 @@ def main():
     movej(j[50, 0, 0, 0, 10, 0])  # Rotate joint 1 to  50 degrees and joint 5 to 10 degrees
     movej(j[-50, 0, 0, 0, 10, 0])  # Rotate joint 1 to  -50 degrees and joint 5 to 10 degrees
 
-    # linear moves
+    # Linear moves
     movel(j[50, 0, 0, 0, 10, 0])  # Move to a waypoint with joint 1 rotated 50 degrees  and joint 5 rotated 10 degrees
     movel(j[-50, 0, 0, 0, 10, 0])   # Move to a waypoint with joint 1 rotated -50 degrees  and joint 5 rotated 10 degrees
     movel(j[50, 0, 0, 0, 10, 0])   # Move to a waypoint with joint 1 rotated 50 degrees  and joint 5 rotated 10 degrees

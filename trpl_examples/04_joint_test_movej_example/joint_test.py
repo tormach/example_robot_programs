@@ -29,8 +29,9 @@ def main():
 
     # j3
     notify("Joint 3/ j3", warning=True)
+    # Using Joints() function you can specify which joint to move e.g Joints(j3=angle)
     movej(Joints(j3=angle))  # Move joint 3 to given angle
-    movej(Joints())   # Move back to zero
+    movej(Joints())   # Move back to zero. Un empty Joints() will default all joint angles to zero
 
     # j4
     notify("Joint 4/ j4", warning=True)
