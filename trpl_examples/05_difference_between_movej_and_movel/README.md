@@ -1,5 +1,5 @@
 # Example 5: difference_between_movej_and_movel
-In this example we will see the diffrence between `movej()` and `movel()` using `Joints()/j[]` waypoints.
+In this example we show the diffrence between `movej()` and `movel()` using `Joints()/j[]` waypoints.
 The video below demonstrates a joint move and a linear move.
 
 https://user-images.githubusercontent.com/34427350/217036060-2243b740-f347-45e1-a520-37c5661323d6.mp4
