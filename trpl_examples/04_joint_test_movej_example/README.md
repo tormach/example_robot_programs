@@ -1,6 +1,6 @@
 # Example 4: Joint_test_movej_example
-This example demonstrates how to use movej() with Joints()/j[] waypoints.
-The script will move each joint from j1 to j6 and display a Popup notifictaion telling you which joint will be moving next. 
+This example demonstrates how to use `movej()` with `Joints()/j[]` waypoints.
+The script will move each joint from j1 to j6 and display a popup notifictaion telling you which joint will be moving next. 
 
 In the example we learn about:
 
