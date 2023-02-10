@@ -17,7 +17,7 @@ def main():
 
     # j1
     notify("Joint 1/ j1", warning=True)
-    movej(j[ANGLE, 0, 0, 0, 0, 0], velocity_scale=0.2)  # Move joint 1 to given angle at 30% velocity
+    movej(j[ANGLE, 0, 0, 0, 0, 0], velocity_scale=0.2)  # Move joint 1 to given angle at 20% velocity
     movej(j[0, 0, 0, 0, 0, 0], velocity_scale=0.2)  # Move back to zero at 20% velocity
 
     # j2
@@ -33,17 +33,17 @@ def main():
 
     # j4
     notify("Joint 4/ j4", warning=True)
-    movej(Joints(j4=ANGLE), velocity_scale=0.2)  # Move joint 4 to given angle at 30% velocity
+    movej(Joints(j4=ANGLE), velocity_scale=0.2)  # Move joint 4 to given angle at 20% velocity
     movej(Joints(), velocity_scale=0.2)   # Move back to zero at 20% velocity
 
     # j5
     notify("Joint 5/ j5", warning=True)
-    movej(Joints(j4=ANGLE), velocity_scale=0.2)  # Move joint 5 to given angle at 30% velocity
+    movej(Joints(j5=ANGLE), velocity_scale=0.2)  # Move joint 5 to given angle at 20% velocity
     movej(Joints(), velocity_scale=0.2)   # Move back to zero at 20% velocity
 
     # j6
     notify("Joint 6/ j6", warning=True)
-    movej(Joints(j6=ANGLE), velocity_scale=0.2)  # Move joint 6 to given angle at 30% velocity
+    movej(Joints(j6=ANGLE), velocity_scale=0.2)  # Move joint 6 to given angle at 20% velocity
     movej(Joints(), velocity_scale=0.2)   # Move back to zero at 20% velocity
 
     exit()  # Exit/stop main() loop
