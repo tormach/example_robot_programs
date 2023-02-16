@@ -1,7 +1,8 @@
 # Example 7: drawing_a_circle_using_movec_and_pose_waypoints
 This example shows how to draw a circle using `movec()` and `Pose()/p[]`
 
-[NOTE: Add video]
+https://user-images.githubusercontent.com/34427350/219497162-86e8ec2f-d52e-4556-8459-387219d26522.mp4
+
 
 In the example we learn about:
 * `movec()`: An arc/circular move command
