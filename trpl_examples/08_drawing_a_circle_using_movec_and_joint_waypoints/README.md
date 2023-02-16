@@ -1,7 +1,8 @@
 # Example 8: drawing_a_circle_using_movec_and_joint_waypoints
 This example shows how to move the robot end effector in a circle using `movec()` and `Joints()/j[]`
 
-[NOTE: Add video]
+https://user-images.githubusercontent.com/34427350/219497617-e4b6620d-5fed-4a26-bdcb-391167715e37.mp4
+
 
 In the example we learn about:
 * `movec()`: An arc/circular move command
