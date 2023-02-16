@@ -1,7 +1,8 @@
 '''
 Example 8: movec() and Joints()/j[]
 In this example we will be using movec() and Joint() to move the robot end effector in a circle.
-movec() has the following arguments or parameters movec(interim, target, probe, velocity, accel, accel_scale, duration, strict_limits) :
+movec() has the following arguments or parameters,
+movec(interim, target, probe, velocity, accel, accel_scale, duration, strict_limits) :
 -interim: interim/mid waypoint
 -target: target waypoint
 -probe (We won't be looking at this one in this example)
@@ -21,21 +22,24 @@ def main():
     '''
     movec() moves the robot end effector in an arc based on two main points, the mid/interim point and the target point.
     '''
+    notify("The robot arm is going to make wide movements.\nMake sure the surrounding area is clear and click OK to continue.", warning=True)
     
     # To create the starting point we rotate joint 1 to point to the starting waypoint (in our case -20 degrees). 
     # Also slightly tilt joint 5 so that the robot is able to calculate the move.
     start_waypoint = j[-20, 0, 0, 0, 4, 0]  # Create a start waypoint
     movej(start_waypoint)   # Move to the start_waypoint, we use movej() so that the robot arm re-orients in case it was in a restrictive pose
-    
+
     # First arc
     interim_waypoint = j[0, -20, 0, 0, 4, 0]  # Create interim/mid waypoint
     target_waypoint = j[20, 0, 0, 0, 4, 0]  # Create target waypoint
     movec(interim_waypoint, target_waypoint, velocity=100, accel=10, duration=3)  # Perform arc movement
-    
-    # Seconde arc
+
+    # Second arc
     # Since we are creating a circle our next arc will be a mirrored version of the first arc, so we will use opposite values of the first arc
     start_waypoint = j[20, 0, 0, 0, -4, 0]
     movej(start_waypoint)  # We use movej here to move to the starting point but also re-orient the arm to be able to perform the next arc movement
     interim_waypoint = j[0, 20, 0, 0, -4, 0]  # Create interim/mid waypoint
     target_waypoint = j[-20, 0, 0, 0, -4, 0]  # Create target waypoint
     movec(interim_waypoint, target_waypoint, velocity=60, accel=10, duration=4)  # Perform arc movement
+    
+    exit()  # Exit main loop

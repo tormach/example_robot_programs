@@ -64,7 +64,7 @@ def main():
     target_waypoint = p[x, y, 0, 0, 0, 0]  # Create target point
     movec(interim_waypoint, target_waypoint, velocity=100, accel=10, duration=3)  # Draw arc
 
-    # Seconde arc
+    # Second arc
     # Since we are creating a circle our next arc will be a mirrored version of the first arc, so same calculations but opposite operations
 
     # Calculate the interim point

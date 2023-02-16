@@ -1,5 +1,5 @@
 # Example 7: drawing_a_circle_using_movec_and_pose_waypoints
-This example show how to draw a circle using `movec()` and `Pose()/p[]`
+This example shows how to draw a circle using `movec()` and `Pose()/p[]`
 
 [NOTE: Add video]
 

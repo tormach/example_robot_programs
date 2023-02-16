@@ -1,7 +1,7 @@
 '''
 Example 6: movej(), movel() and Pose()/p[]
 This example demonstrates the difference between a joint move and linear move
-using Joints()/j[] waypoints.
+using Pose()/p[] waypoints.
 '''
 
 from robot_command.rpl import *
@@ -43,4 +43,6 @@ def main():
     movel(p[0, 0, 0, 0, 0, 0], velocity=300)  # Move cartesian point (x=0, y=0, z=0, a=0, b=0, c=0)
     movel(p[0, 300, 0, 0, 0, 0], velocity=300)  # Then move to y=300
     movel(p[0, 0, 0, 0, 0, 0], velocity=300)  # Then back to zero
+
+    exit()  # Exit main loop
 
