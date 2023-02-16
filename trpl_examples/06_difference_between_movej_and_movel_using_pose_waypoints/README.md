@@ -2,7 +2,8 @@
 In this example we show the difference between `movej()` and `movel()` using `Pose()/p[]` waypoints.
 The video below demonstrates a joint move and a linear move.
 
-[NOTE: Add video]
+https://user-images.githubusercontent.com/34427350/219496929-47c0844f-0214-4a06-a296-09cc6f5ad004.mp4
+
 
 In the example we learn about:
 
