@@ -17,7 +17,7 @@ def draw_rect(x=0, y=0, w=100, h=100):
 def main():
     '''
     pause() is different form sleep() function in that it requires user input from the system UI to resume the program.
-    Also you can make a pause optional by setting opational parameter true (pause(optional=True)).
+    Also you can make a pause optional by setting optional parameter true (pause(optional=True)).
     Optional pauses will be skipped unless you activate them by clicking "OPTIONAL PAUSE" button in the system UI.
     '''
     draw_rect()
