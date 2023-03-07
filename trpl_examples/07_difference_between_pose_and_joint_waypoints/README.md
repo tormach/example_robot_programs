@@ -1,5 +1,6 @@
-# Example 7: 
-
+# Example 7: difference_between_pose_and_joint_waypoints
+The main differences between Joints() and Pose() waypoints:
+* Pose() move the end effectir  
 
 In the example we learn about:
 * `movec()`: An arc/circular move command
