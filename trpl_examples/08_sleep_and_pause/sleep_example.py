@@ -19,11 +19,11 @@ def main():
     sleep() is a function that pauses the program for a given amount of time.
     sleep takes in seconds as an argument.
     '''
-    draw_rect()
+    draw_rect()  # Draw triangle
     notify("Wait 5 seconds")
     sleep(5)  # Sleep/wait 5 seconds
     draw_rect()  # Then draw rectangle
-    
+
     notify("Wait 3 seconds")
     sleep(3)    # Sleep/wait 3 seconds
     draw_rect()  # Then draw rectangle
