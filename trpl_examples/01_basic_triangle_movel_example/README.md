@@ -17,5 +17,6 @@ In the example we learn about:
 * `movej()`: A joint move command. With this command, the robot end effector will move between points using the available efficient path,  also considering angle limits for each joint.
 
 
-### Learn more about the Tormach Robot Programming Language:
-https://tormach.atlassian.net/wiki/spaces/ROBO/pages/1930690719/Tormach+Robot+Programming+Language#TormachRobotProgrammingLanguage-robot_command.rpl.execute_trajectory
+### Learn more about the Tormach Robot Programming Language (TRPL):
+https://tormach.atlassian.net/wiki/spaces/ROBO/pages/1930690719/Tormach+Robot+Programming+Language
+
