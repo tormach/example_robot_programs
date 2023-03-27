@@ -22,12 +22,11 @@ There are ways to stop this from happening.
 2) Specifying notify() type (warning/error): This will pause the program and wait for user input e.g "OK" to continue or "ABORT" to exit program
 3) Exit(): This function will stop/exit the program after the main loop has ran once. 
 '''
-notify("This message is neither a Warning nor an Error type, so the program is still running in the background")
+
+notify("This notification is neither a Warning nor an Error type, so the program is still running in the background.")
 
 # main runs in a loop
 def main():
-    notify("This notification has an image attached click OK to continue", image_path="./roboarm(1).png")
-
     '''
     We can also attach variable data onto the message,
     but remember if the variable data is not a string
@@ -37,11 +36,18 @@ def main():
      "Notification number": 23,
      "warning": "Yes"
     }
+    
+    programName = "notify example"
+    exampleNumber = 9
     # Warning type messages pause the program and wait for user input
-    notify("Hello World, This is a warning message click OK to continue with the program or ABORT to exit the program: " + str(infor), warning=True)
-
+    notify("You can attach variable data to a notification message by stringfying it using the str() python function.For example here is a custom dict from the program:\n\n " + str(infor) 
+            +"\n\nIf the variable data is already in string format then you don't have to stringify it.For example the variable \"programName\":\n\n "+programName + "\n\nWe stringify any data type that's not a string, here is an example of an integer \"exampleNumber\":\n    "+str(exampleNumber)+"\nWe had to stringfying the integer because it is not a string.", warning=True)
+    # Attaching images to a notification
+    msg = "The notify function has an \"image_path\" argument. With this you can attach images to a notification, just like this one."
+    notify(message=msg, image_path="./roboarm(1).png", warning=True)
+    
     # Error type messages pause the program and have ABORT as the only input option
-    msg = "Hello World, This is an Error message click ABORT to exit"
+    msg = "This is an example of an Error type notification, once it's active it will stop the program and one the \"ABORT\" button is clicked the program will exit immediatly."
     notify(message=msg, error=True)
 
     exit()  # exit main loop

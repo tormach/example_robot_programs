@@ -29,18 +29,21 @@ def draw_rect(x=0, y=0, w=100, h=100):
     movel(p[x,y,0,0,0,0])
 
 def draw_line():
-        movej(Pose())
-        movel(Pose(y=100))
-        movel(Pose())
+    movej(Pose())
+    movel(Pose(y=100))
+    movel(Pose())
+
+def setup_test_user_and_tool_frame():
+    # Creating a user frame just above the table to make sure the robot accidentally run in to it.
+    set_user_frame("test_user_frame1", position=p[400, -200, 550, 0, 0, 0])
+    change_user_frame("test_user_frame1")
+    # Creating a tool frame to make sure the z-axis is oriented correctly
+    set_tool_frame("test_tool_frame1", orientation=p[0, 0, 0, 180, 0, 0])
+    change_tool_frame("test_tool_frame1")
 
 
 def main():
-    # Creating a user frame just above the table to make sure the robot doesn't accidentally run in to it.
-    set_user_frame("user_frame1", position=p[400, -200, 550, 0, 0, 0])
-    change_user_frame("user_frame1")
-    # Creating a tool frame to make sure the z-axis is oriented correctly
-    set_tool_frame("tool_frame1", orientation=p[0, 0, 0, 180, 0, 0])
-    change_tool_frame("tool_frame1")
+    setup_test_user_and_tool_frame()
     
     '''
     input() displays a popup with an input box, it takes in 3 arguments.
@@ -49,7 +52,8 @@ def main():
     * image_path: Optional path to an image file to displayed in the popup.
     input(message, default, image_path) returns a string.
     '''
-    user_input = input("Selection:\n0): Line (default)\n1): Triangle\n2): Square\n\n Press \"OK\" to continue or \"ABORT\" to exit program", default="Enter Number")
+    #notify("", warning=True)
+    user_input = input("This example demonstrates how the input() function works.\nEnter a number that's next to the option then the robot will perform the option.\n\nSelection:\n0): Line (default)\n1): Rectangle\n2): Triangle\n\n Press \"OK\" to continue or \"ABORT\" to exit program", default="Enter Number")
     if user_input == "Enter Number":
         user_input = "0"
     n = int(user_input)  # Convert user_frame to int, since input returns a string
@@ -61,4 +65,4 @@ def main():
     elif n == 2:
         draw_triangle()
     else:
-         notify("The provide input is not part of the selection options, press \"OK\" to continue or \"ABORT\" to exit program")
+        notify("The provided input is not part of the options, press \"OK\" to continue.", warning=True)

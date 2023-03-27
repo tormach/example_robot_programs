@@ -10,7 +10,16 @@ def draw_rect(x=0, y=0, w=100, h=100):
     movel(p[x+w,y+h,0,0,0,0])
     movel(p[x,y+h,0,0,0,0])
 
+def setup_test_user_and_tool_frame():
+    # Creating a user frame just above the table to make sure the robot accidentally run in to it.
+    set_user_frame("test_user_frame1", position=p[400, -200, 550, 0, 0, 0])
+    change_user_frame("test_user_frame1")
+    # Creating a tool frame to make sure the z-axis is oriented correctly
+    set_tool_frame("test_tool_frame1", orientation=p[0, 0, 0, 180, 0, 0])
+    change_tool_frame("test_tool_frame1")
+
 def main():
+    setup_test_user_and_tool_frame()
     '''
     pause() is different form sleep() function in that it requires user input from the system UI to resume the program.
     Also you can make a pause optional by setting the "optional" parameter to true (pause(optional=True)).
