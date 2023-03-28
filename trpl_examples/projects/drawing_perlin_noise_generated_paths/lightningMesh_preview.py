@@ -11,21 +11,25 @@ W_HEIGHT = 600 # World/Canvas height
 
 MAP_OFFSET_X = 30
 MAP_OFFSET_Y = 30
-NUM_PATHS = 1000
+
+NUM_PATHS = 300  # Number of paths
 CELL_SCALE = 1
+
 MAX_PATH_LENGTH = 100   # Maximum number of points in each path
 MIN_PATH_LENGTH = 20    # Maximum number of paths in each batch
 
-PREVIEW_EXISTING_JSON = False
-CREATE_JSON_FILE = True
+PREVIEW_EXISTING_JSON = True
 
-EXISTING_JSON_FILE = "paths/pathsMap_extract.json"
-SAVE_JSON_FILE_PATH = "paths/pathsMap_extract.json"
+CREATE_JSON_FILE = not PREVIEW_EXISTING_JSON
+# CREATE_JSON_FILE = False
+
+EXISTING_JSON_FILE = "/paths/pathsMap_extract.json"
+SAVE_JSON_FILE_PATH = "/paths/pathsMap_extract.json"
 
 
 '''
 LMesh(): Handles mesh generation (Lighting mesh generator) and
-returns path list
+returns a list of paths
 NOTE: Keep width and height below 500, above that the robot might not reach to draw paths
 '''
 def LMesh(width=200, height=200):
@@ -52,9 +56,13 @@ def LMesh(width=200, height=200):
     # ------------------------
 
     noise_z_frame = random.uniform(1, cols*rows)
-    xy_noise_scale = random.randint(2, 20)
-    # xy_noise_scale = 2
-    # print(noise_z_frame)
+
+    # The bigger the curve factor the more curves are generated
+    curve_factor = random.randint(2, 5)
+    # Experimental curve factors
+    # curve_factor = 2
+    # curve_factor = 0.3
+
     for r in range(0, rows):
         for c in range(0, cols):
             # Get xy coordinate of cell (top left corner)
@@ -62,12 +70,12 @@ def LMesh(width=200, height=200):
             y = r * cell_scl + y_offs
 
             # Get random number form perlin noise, this will be used to rotate vectors
-            rnd = noise([(c/width)*xy_noise_scale, (r/height)*xy_noise_scale, noise_z_frame]) * math.pi * 2 * 4
-            # ---------------Experimental---------------------------------------------
+            rnd = noise([(c/width)*curve_factor, (r/height)*curve_factor, noise_z_frame]) * math.pi * 2 * 4
+            # ---------------Experimental random values ---------------------------------------------
             # rnd = random.uniform(0, math.radians(360))
             # rnd = random.uniform(0, math.radians(360)) % 30 # better with higher cell scale
             # rnd = random.uniform(0, math.radians(360)) % 2
-            # rnd = (noise([(c/width)*xy_noise_scale, (r/height)*xy_noise_scale, noise_z_frame]) * math.pi * 2 * 4) % 2
+            # rnd = (noise([(c/width)*curve_factor, (r/height)*curve_factor, noise_z_frame]) * math.pi * 2 * 4) % 2
             # ------------------------------------------------------------
 
             # Rotated x and y

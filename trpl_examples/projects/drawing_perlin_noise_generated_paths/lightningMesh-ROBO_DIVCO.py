@@ -21,7 +21,7 @@ MAP_OFFSET_X = 30
 MAP_OFFSET_Y = 30
 
 SAFE_HEIGHT = 50
-CELL_SCALE = 1  # bigger numbers = less resolution
+CELL_SCALE = 1  # Grid cell scale (bigger numbers = less resolution)
 
 NUM_PATHS = 600
 MAX_PATH_LENGTH = 100   # Maximum points in a path (Too many points might crush the system)
@@ -53,26 +53,29 @@ def LMesh(width=200, height=200):
 
     #  Generating vector field
     # ------------------------
-
     noise_z_frame = random.uniform(1, cols*rows)
-    xy_noise_scale = random.randint(2, 20)
-    # xy_noise_scale = 3
+  
+    # The bigger the curve factor the more curves are generated
+    curve_factor = random.randint(2, 5)
+    # Experimental curve factors
+    # curve_factor = 2
+    # curve_factor = 0.3
 
     for r in range(0, rows):
         for c in range(0, cols):
+            # Get xy coordinate of cell (top left corner)
             x = c * cell_scl + x_offs
             y = r * cell_scl + y_offs
 
             # Get random number form perlin noise, this will be used to rotate vectors
-            rnd = noise([(c/width)*xy_noise_scale, (r/height)*xy_noise_scale, noise_z_frame]) * math.pi * 2 * 4
-            
-            # ---------EXPE---------------------------------------------------
+            rnd = noise([(c/width)*curve_factor, (r/height)*curve_factor, noise_z_frame]) * math.pi * 2 * 4
+            # ---------------Experimental random values ---------------------------------------------
             # rnd = random.uniform(0, math.radians(360))
-            # rnd = random.uniform(0, math.radians(360)) % 30 # better with higher cell_scl
+            # rnd = random.uniform(0, math.radians(360)) % 30 # better with higher cell scale
             # rnd = random.uniform(0, math.radians(360)) % 2
-            # rnd = (noise([(c/width)*xy_noise_scale, (r/height)*xy_noise_scale, noise_z_frame]) * math.pi * 2 * 4) % 2
+            # rnd = (noise([(c/width)*curve_factor, (r/height)*curve_factor, noise_z_frame]) * math.pi * 2 * 4) % 2
             # ------------------------------------------------------------
-            
+
             # Rotated x and y
             rX = math.cos(rnd)
             rY = math.sin(rnd)
@@ -91,7 +94,7 @@ def LMesh(width=200, height=200):
                 "renderCount": 0,
             }
 
-            # paths.append(temp_point["vPath"]) # Add it to paths so it can get graphed
+            # paths.append(temp_point["vPath"])  # Add to paths to be drawn
             grid.append(temp_point)
 
     def draw_rect(_x, _y, _width, _height):
@@ -220,6 +223,6 @@ def blend_n_run(batches):
     movel(p[0, 0, SAFE_HEIGHT, 0, 0, 0])
 
 def main():
-    init_setup()
+    init_setup()  # This will create a test user frame, if you want the robot to draw on custom medium then you will have to create a user frame for that.
     blend_n_run(divco(all_paths))
     exit()
