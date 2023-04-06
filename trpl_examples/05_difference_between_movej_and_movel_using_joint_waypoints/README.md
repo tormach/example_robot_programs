@@ -12,4 +12,4 @@ In the example we learn about:
 * `set_units()`: Set units that will be used in a program
 
 ### Learn more about the Tormach Robot Programming Language (TRPL):
-https://tormach.atlassian.net/wiki/spaces/ROBO/pages/1930690719/Tormach+Robot+Programming+Language#TormachRobotProgrammingLanguage-robot_command.rpl.execute_trajectory
+https://tormach.atlassian.net/wiki/spaces/ROBO/pages/1930690719/Tormach+Robot+Programming+Language
