@@ -18,6 +18,7 @@ def draw_joint_waypoints_rect():
 
 #  main() runs in a loop
 def main():
+    notify("This example is one of two examples that will be demonstrating the difference between Joint()/j[] and Pose()/p[]\n\nThis example focuses on Joint()/j[].\nThe one difference that you will is that, with Joint() you control individual joints e.g. Joint(j1=0,j2=0,j3=0,j4=0,j5=0,j6=0)\nThe other difference that wont be as obvious is that Joint() is not affected by user frames.This of a user frame as the origin that the robot end effector moves relative to. When you create a new user frame \"setting a new origin\" and try moving the robot using Joint()/j[], then it won't move relative to that new user frame since you are controlling individual joints.\nThis program will create a new user frame and then it will make the robot draw a rectangular-ish shape. Then it will create a new user frame similar to the last one but this time it will be rotated 90 degrees and draw a rectangular-ish shape. You will notice that the robot wont act differently for each test.", warning=True)
     '''
     Joints()/p[] waypoints are not affected by user frames and tool frames.
     The main difference from Pose() is that with Joints() you control specific joints to move the end effector  e.g Joints(j1=20, ...j6)/p[j1, ...j6]

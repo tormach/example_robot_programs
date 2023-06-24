@@ -17,6 +17,7 @@ def draw_rect_with_pose_waypoints(x=0, y=0, w=100, h=100):
 
 #  main() runs in a loop
 def main():
+    notify("This example is one of two examples that will be demonstrating the difference between Joint()/j[] and Pose()/p[].\n\nThis example focuses on Pose()/p[]. With Pose() you control the positioning of the robot end effector using xyz coordinates and ABC rotations (A-rotation on x, B-on y, C-on z) relative to the robots origin(located at the base of the robot) or created user frame.\nThis program will create a user frame and then draw a rectangle. Then it will create another user frame similar to the last one but rotated 90 degrees and it will draw a rectangle.\nYou will notice that the robot will act differently on the last test because since we are changing user frames and we are using Pose()/p[] the robot end effector will move relative to the current user frame. This wont be the case if we used Joint()/j[].", warning=True)
     '''
     The main difference is that Pose() is affected by user frames and tool frames.
     And with Pose() you control the end effector in cartesian coordinates e.g p[x, y, z, a, b, c]/Pose(x=0, y=0, z=0, a=0, b=0, c=0)
