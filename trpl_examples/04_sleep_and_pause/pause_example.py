@@ -21,7 +21,7 @@ def setup_test_user_and_tool_frame():
 def main():
     setup_test_user_and_tool_frame()
     '''
-    pause() is different form sleep() function in that it requires user input from the system UI to resume the program.
+    pause() is different from sleep() function in that it requires user input from the system UI to resume the program.
     Also you can make a pause optional by setting the "optional" parameter to true (pause(optional=True)).
     Optional pauses will be skipped unless you activate them by clicking "OPTIONAL PAUSE" button in the system UI.
     '''

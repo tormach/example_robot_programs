@@ -1,5 +1,5 @@
 # Example 13: Using get_param() and set_param()
-This program will demonstrate how to store and manage data using get_/set_param().
+This program will demonstrate how to store and manage data using get_param()/set_param().
 Data stored using set_param() will be persistent, meaning you can still access the data even after stopping and starting the program. 
 Also the data can be accessed between programs. 
 
