@@ -12,7 +12,7 @@ set_units("mm", "deg")
 
 # The main function runs in a loop
 def main():
-    notify("Make sure the environment is clear", warning=True)  # Show a notification popup and set warning to true so that the program poses till "OK" is clicked
+    notify("Make sure the environment is clear, the robot will be rotating all joints to a zero.", warning=True)  # Show a notification popup and set warning to true so that the program poses till "OK" is clicked
     movej(j[0, 0, 0, 0, 0, 0], velocity_scale=0.2)  # Move all joints to angle zero at 20% velocity
 
     # j1
