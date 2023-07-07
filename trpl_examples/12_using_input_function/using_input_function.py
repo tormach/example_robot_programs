@@ -56,13 +56,19 @@ def main():
     user_input = input("This example demonstrates how the input() function works.\nEnter a number that's next to the option then the robot will perform the option.\n\nSelection:\n0): Line (default)\n1): Rectangle\n2): Triangle\n\n Press \"OK\" to continue or \"ABORT\" to exit program", default="Enter Number")
     if user_input == "Enter Number":
         user_input = "0"
-    n = int(user_input)  # Convert user_frame to int, since input returns a string
+    
+    option = -1
+    
+    try:  # Handling any error that might occur when converting user_input to an integer. (Since not all strings can convert to integers)
+        option = int(user_input)  # Convert user_frame to int, since input returns a string
+    except:  # When an error occurs
+        option = -1 # Reset option
 
-    if n == 0:
+    if option == 0:
         draw_line()
-    elif n == 1:
+    elif option == 1:
         draw_rect()
-    elif n == 2:
+    elif option == 2:
         draw_triangle()
     else:
         notify("The provided input is not part of the options, press \"OK\" to continue.", warning=True)

@@ -31,6 +31,7 @@ def init_setup():
     change_user_frame("sadiq_1")
     movej(p[0,0,SAFE_HEIGHT,0,0,0])
 
+
 def start(_paths):
     if not _paths:
         notify("No c_paths")

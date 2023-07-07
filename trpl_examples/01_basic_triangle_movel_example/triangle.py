@@ -1,6 +1,19 @@
 '''
 Example 1.0: movel() and pose()/p[]
 In this examples we are going to draw a triangle with the help of two functions Pose()/p[] and movel()
+
+Pose()/p[], takes in  xyz position and ABC rotations as an argument, for example Pose(x=0,y=0,z=0,a=0, b=0,c=0)/p[x, y, z, a, b, c]. 
+ABC: A(rotation on X-axis), B(rotation on Y-axis), C(rotation on Z-axis)
+
+movel(), takes in: 
+    * target - target waypoint
+    * velocity - move velocity as absolute value, interpreted in terms of currently set machine units if quantity without units is given.
+    * accel - move acceleration as absolute value, interpreted in terms of currently set machine units if quantity without units is given.
+    * accel_scale -  move acceleration scaling factor 0.0 - 1.0
+    * duration  - target move duration in seconds. If move duration based on other inputs is longer, the planned duration will be used.
+
+    * strict_limits - (Will be discussed in future examples)
+    * probe - (Will be discussed in future examples)
 '''
 
 from robot_command.rpl import *
@@ -15,7 +28,13 @@ def main():
      As a new user you might want to run this program without worrying about setting up user frames or anything.
      So, below we create a test user frame that you can use right away without setting up anything.
     '''
-    set_user_frame("user_frame1", position=p[400,-200,550,0,0,0])  # Create user frame at position x = 400, y = -200 and z = 550
+    userFrame_pos_x = 400
+    userFrame_pos_y = -200
+    userFrame_pos_z = 550
+    userFrame_rotation_A = 0 # rotation on x-axis
+    userFrame_rotation_B = 0 # rotation on y-axis
+    userFrame_rotation_C = 0 # rotation on z-axis
+    set_user_frame("user_frame1", position=p[userFrame_pos_x, userFrame_pos_y, userFrame_pos_z, userFrame_rotation_A, userFrame_rotation_B, userFrame_rotation_C])  # Create user frame at position x = 400, y = -200 and z = 550 and A= 0, B = 0, C= 0
     change_user_frame("user_frame1")  # We use it
     '''
     Notify() is a function that throws popup messages on a screen.
@@ -40,10 +59,10 @@ def main():
     movel(waypoint_3, velocity=1000, duration=5)    # move to waypoint_3 with velocity at 1000 and within 5 sec
 
     '''
-    Notes: Below we set "strict_limits" to true, meaning any velocity command
+    Notes: Below we set "strict_limits" to "True", meaning any velocity command
     too high for the robot to physically achieve given the limitation of the
     maximum joint velocities will cause an error and the program to stop.
-    Feel free to change "strict_limits" to "false" or change the velocity to
+    Feel free to change "strict_limits" to "False" or change the velocity to
     something less than 1000 to see the effects.
     '''
     movel(waypoint_1, velocity=1000, strict_limits=True)  # move to waypoint_3 with velocity at 1000 and within 5 sec
