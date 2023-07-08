@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<path d="M 7.0,5.0 6.0,6.0 6.0,139.0 7.0,140.0 7.0,141.0 142.0,141.0 143.0,140.0 143.0,6.0 142.0,5.0" fill="none" stroke="black" />
+	<path d="M 8.0,5.0 141.0,5.0 143.0,7.0 143.0,139.0 141.0,141.0 8.0,141.0 6.0,139.0 6.0,7.0" fill="none" stroke="black" />
+	<path d="M 9.0,8.0 9.0,138.0 140.0,138.0 140.0,8.0" fill="none" stroke="black" />
+	<path d="M 9.0,9.0 10.0,8.0 139.0,8.0 140.0,9.0 140.0,137.0 139.0,138.0 10.0,138.0 9.0,137.0" fill="none" stroke="black" />
+</svg>
