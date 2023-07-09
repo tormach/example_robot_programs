@@ -30,7 +30,7 @@ except:
 
 set_units("mm", "deg")
 
-USER_FRAME = "sadiq_1"
+USER_FRAME = "drawing_user_frame"
 
 SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
 
@@ -396,8 +396,12 @@ def init_setup():
     change_tool_frame("drawing_tool_frame1")  # We make sure we are using it
     
     # user frame
-    change_user_frame(USER_FRAME)
-    movej(p[0,0,SAFE_HEIGHT,0,0,0])
+    if get_user_frame(USER_FRAME):
+        change_user_frame(USER_FRAME)
+        movej(p[0,0,SAFE_HEIGHT,0,0,0])
+    else
+        notify("It seems the expected user frame is not created.\nPlease create a user frame and name it \""+str(USER_FRAME)+"\"", error=True)
+
 
 def start(_paths):
     #notify("Starting")
@@ -652,9 +656,8 @@ def request_handler():
         set_param("is_drawing", True)
         handle_drawing()
 
+
 def main():
-    test = back_trace_file_path("/")
-    log(test)
     # Requests 
     set_param("extract_req", False)
     set_param("imp_img_req", False)
