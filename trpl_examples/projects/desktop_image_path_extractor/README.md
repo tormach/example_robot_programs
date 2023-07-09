@@ -1,4 +1,4 @@
-# Image path extractor
+# Image path extractor (Desktop version)
 The main goal for this project is to have an easy way to extract paths from images. QT is being used for the UI and OpenCV for image processing.
 
 ### Below is an image showing how the UI looks like and what each component does.
@@ -31,11 +31,11 @@ Command: `python -m pip install package-name`
 OR
 Command: `py -m pip install package-name`
 
-# Packages needed for this project to work
+# Installing packages needed for this project
  - ```python3 -m pip install PySide6```
  - ```python3 -m pip install opencv-python```
 
-# Future improvements (ToDo):
+# Future improvements (TODO):
 - Use QML for the UI so that it's easy to maintain
 - Have a dropdown of multiple edge detection algorithms (Currently using Canny algorithm implemented by OpenCV)
 - Add a path cleaning tool (It will be nice to be able to clean out unnecessary paths or points)
