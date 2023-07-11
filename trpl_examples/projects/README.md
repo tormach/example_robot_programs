@@ -1,5 +1,5 @@
 # Projects 
-In here you will find project based examples that combine the knowledge of all basic TRLP examples.
+Here you will find project based examples that combine the knowledge of all basic TRLP examples.
 
 ## Index:
 * [Drawing perlin noise generated paths](/trpl_examples/projects/drawing_perlin_noise_generated_paths)
