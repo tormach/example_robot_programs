@@ -2,7 +2,7 @@
 The main goal for this project is to have an easy way to extract paths from images. QT is being used for the UI and OpenCV for image processing.
 
 ### Below is an image showing how the UI looks like and what each component does.
-![UI overview image](/desktop_image_path_extractor/assets/softwareOveriew.png)
+![UI overview image](/projects/desktop_image_path_extractor/assets/softwareOveriew.png)
 
 
 To get started you will have to set up a virtual environment (instruction bellow), install the necessary packages and then run the main_ui.py script.

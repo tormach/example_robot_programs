@@ -7,7 +7,7 @@ To get this project to run, all you have to do is load the custom_ui.py script a
 
 <strong style="color:orange">NOTE: Remember to set up a user frame and name it "drawing_user_frame"</strong>
 
-![UI overview](/image_path_extractor_pathpilot/assets/IDP-overview.jpg)
+![UI overview](/projects/image_path_extractor_pathpilot/assets/IDP-overview.jpg)
 
 
 ## Issues that you might encounter:
