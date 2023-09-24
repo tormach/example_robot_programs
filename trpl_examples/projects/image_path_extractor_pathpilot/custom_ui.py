@@ -158,7 +158,7 @@ def extract(_image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THR
     final_paths = cv_contour_list_to_pathsList(contours)
     non_mirror_final_paths = cv_contour_list_to_pathsList(non_mirror_contours)
     
-    #TODO: run smoothing function on paths
+    
     
     log("Extract Done!!")
     
@@ -393,6 +393,13 @@ def b_spline_path_smoother(waypoints):
     # print(smooth)
     return smooth[0]
 
+def smooth_all_paths(paths):
+    final = []
+    for path in paths:
+        smooth = b_spline_path_smoother(path)
+        final.append(smooth)
+    return final
+
 
 # Split array into smaller chunks recursivelly (Divide and conquer) 
 def divco(list, batch_length=NUM_BATCH_LENGTH):
@@ -511,6 +518,10 @@ def handle_files(dir_path=""):
 def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
     set_param("extracting_paths", True)
     img, final_paths, non_mirror_final_paths = extract(temp_image, canny_threshold1=t1, canny_threshold2=t2)
+    
+    # Apply b-spline path smoother
+    final_paths = smooth_all_paths(final_paths)
+
     img = cv_image_to_base64(img)
     set_param("image_view", img)
     global paths_map
@@ -619,7 +630,7 @@ def preview_file(image_path=DEFAULT_IMAGE):
 preview_file()
 
 def request_handler():
-    # extruction request
+    # extraction request
     if get_param("extract_req"):
         set_param("extract_req", False)
         thresh1 = get_param("threshold1_value")
