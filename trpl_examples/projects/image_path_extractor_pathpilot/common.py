@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import json
 
+
 def cv_contour_list_to_pathsList(contourList):
     newList = []
     list = contourList
@@ -57,3 +58,22 @@ def cv_strict_resize(img, _desired_width=150, _desired_height=150):
         new_width = int(new_height * aspect_ratio)
     print("new W:H", new_width, new_height)
     return cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_AREA)
+
+def b_spline(waypoints):
+    if not waypoints:
+        return []
+    
+    waypoints = np.array(waypoints)
+    x = []
+    y = []
+
+    x = waypoints[:, 0]
+    y = waypoints[:, 1]
+
+
+    tck, _ = interpolate.splprep([x, y])
+    u = np.linspace(0, 1, num=200)
+    _x, _y = interpolate.splev(u, tck)
+    smooth = np.dstack((_x, _y))
+    # print(smooth)
+    return smooth[0]

@@ -7,10 +7,13 @@ import os
 import time
 
 
+
 try:
     import cv2
     import numpy as np
-    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc, 
+    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc,
+    
+    import scipy.interpolate as interpolate
 except:
     set_param("installing_packages", True)
     notify("Installing packages!")
@@ -22,8 +25,11 @@ except:
         #sh.pip3.install("cv2") # Not working ERROR: Could not find a version that satisfies the requirement cv2 (from versions: none) ERROR: No matching distribution found for cv2
         #sh.pip3.install("numpy")
         sh.pip3.install("svgpathtools")
+        sh.pip3.install("scipy")
     import cv2
-    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc, 
+    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc,
+    import scipy.interpolate as interpolate
+
     rospy.logwarn("INST-end:: "+str(time.strftime("%H:%M:%S", time.localtime())))
     set_param("installing_packages", False)
 
@@ -47,7 +53,7 @@ MIN_THRESHOLD = 1
 
 
 NUM_BATCH_LENGTH = 3
-MAX_PATH_LENGTH = 100 # points in a path (Too many points might crush the system)
+MAX_PATH_LENGTH = 100 # points in a path (Too many points might crush the program)
 #MIN_PATH_LENGTH = 20
 
 SAFE_HEIGHT = 50
@@ -106,7 +112,7 @@ extract():
 def extract(_image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THRESHOLD_2 ):
     log("Getting ready to extract...")
     
-    if  len(_image) <= 0:
+    if len(_image) <= 0:
         log("extract(): Image issues")
         return
     
@@ -151,6 +157,8 @@ def extract(_image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THR
 
     final_paths = cv_contour_list_to_pathsList(contours)
     non_mirror_final_paths = cv_contour_list_to_pathsList(non_mirror_contours)
+    
+    #TODO: run smoothing function on paths
     
     log("Extract Done!!")
     
@@ -364,6 +372,27 @@ def isFile(fileName):
         return True
     return False
 #--------------------------------------------------------------------------------------------
+
+
+def b_spline_path_smoother(waypoints):
+    if not waypoints:
+        return []
+    
+    waypoints = np.array(waypoints)
+    x = []
+    y = []
+
+    x = waypoints[:, 0]
+    y = waypoints[:, 1]
+
+
+    tck, _ = interpolate.splprep([x, y])
+    u = np.linspace(0, 1, num=200)
+    _x, _y = interpolate.splev(u, tck)
+    smooth = np.dstack((_x, _y))
+    # print(smooth)
+    return smooth[0]
+
 
 # Split array into smaller chunks recursivelly (Divide and conquer) 
 def divco(list, batch_length=NUM_BATCH_LENGTH):
