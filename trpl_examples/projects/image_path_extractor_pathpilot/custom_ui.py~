@@ -7,10 +7,13 @@ import os
 import time
 
 
+
 try:
     import cv2
     import numpy as np
-    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc, 
+    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc,
+    
+    import scipy.interpolate as interpolate
 except:
     set_param("installing_packages", True)
     notify("Installing packages!")
@@ -22,8 +25,11 @@ except:
         #sh.pip3.install("cv2") # Not working ERROR: Could not find a version that satisfies the requirement cv2 (from versions: none) ERROR: No matching distribution found for cv2
         #sh.pip3.install("numpy")
         sh.pip3.install("svgpathtools")
+        sh.pip3.install("scipy")
     import cv2
-    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc, 
+    from svgpathtools import svg2paths #, Path, Line, QuadraticBezier, CubicBezier, Arc,
+    import scipy.interpolate as interpolate
+
     rospy.logwarn("INST-end:: "+str(time.strftime("%H:%M:%S", time.localtime())))
     set_param("installing_packages", False)
 
@@ -47,7 +53,7 @@ MIN_THRESHOLD = 1
 
 
 NUM_BATCH_LENGTH = 3
-MAX_PATH_LENGTH = 100 # points in a path (Too many points might crush the system)
+MAX_PATH_LENGTH = 100 # points in a path (Too many points might crush the program)
 #MIN_PATH_LENGTH = 20
 
 SAFE_HEIGHT = 50
@@ -106,7 +112,7 @@ extract():
 def extract(_image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THRESHOLD_2 ):
     log("Getting ready to extract...")
     
-    if  len(_image) <= 0:
+    if len(_image) <= 0:
         log("extract(): Image issues")
         return
     
@@ -151,6 +157,8 @@ def extract(_image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THR
 
     final_paths = cv_contour_list_to_pathsList(contours)
     non_mirror_final_paths = cv_contour_list_to_pathsList(non_mirror_contours)
+    
+    
     
     log("Extract Done!!")
     
@@ -365,6 +373,34 @@ def isFile(fileName):
     return False
 #--------------------------------------------------------------------------------------------
 
+
+def b_spline_path_smoother(waypoints):
+    if not waypoints:
+        return []
+    
+    waypoints = np.array(waypoints)
+    x = []
+    y = []
+
+    x = waypoints[:, 0]
+    y = waypoints[:, 1]
+
+
+    tck, _ = interpolate.splprep([x, y])
+    u = np.linspace(0, 1, num=200)
+    _x, _y = interpolate.splev(u, tck)
+    smooth = np.dstack((_x, _y))
+    # print(smooth)
+    return smooth[0]
+
+def smooth_all_paths(paths):
+    final = []
+    for path in paths:
+        smooth = b_spline_path_smoother(path)
+        final.append(smooth)
+    return final
+
+
 # Split array into smaller chunks recursivelly (Divide and conquer) 
 def divco(list, batch_length=NUM_BATCH_LENGTH):
     if len(list) <= batch_length:
@@ -401,7 +437,7 @@ def init_setup():
             change_user_frame(USER_FRAME)
             movej(p[0,0,SAFE_HEIGHT,0,0,0])
     except:
-        notify("User frame \""+str(USER_FRAME)+"\" Not Found\n"+ ".\nPlease create a user frame called \""+str(USER_FRAME)+"\"", error=True)
+        notify("User frame \""+str(USER_FRAME)+"\" Not Found\n"+ "\nPlease create a user frame called \""+str(USER_FRAME)+"\"", error=True)
 
 def start(_paths):
     #notify("Starting")
@@ -414,7 +450,7 @@ def start(_paths):
         set_path_blending(True, 0)
         for _path in _paths:  # for every path  in c_paths[] list
             try:
-                if not _path:
+                if not len(_path):
                     notify("No c_path")
                     exit()
                 
@@ -426,14 +462,14 @@ def start(_paths):
                         movel(Pose(x, y))
                 movel(Pose(x, y, SAFE_HEIGHT))
                 #notify("Point: "+str(point), warning=True)
-            except:
-                log("Inner issue")
-                log(_path)
+            except Exception as e:
+                log("Inner issue:"+str(e))
+                #log(_path)
         sync()
         set_path_blending(False)
-    except:
-        log("Something is wrong")
-        log(_paths)
+    except Exception as e:
+        log("Something is wrong: "+str(e))
+        #log(_paths)
 
 
 def blend_n_run(batches):
@@ -482,12 +518,16 @@ def handle_files(dir_path=""):
 def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
     set_param("extracting_paths", True)
     img, final_paths, non_mirror_final_paths = extract(temp_image, canny_threshold1=t1, canny_threshold2=t2)
+    
+    # Apply b-spline path smoother
+    final_paths = smooth_all_paths(final_paths)
+
     img = cv_image_to_base64(img)
     set_param("image_view", img)
     global paths_map
     paths_map = final_paths
     
-    save_metadata(final_paths,non_mirror_final_paths)
+    #save_metadata(final_paths,non_mirror_final_paths)
    
     set_param("extracting_paths", False)
 
@@ -590,7 +630,7 @@ def preview_file(image_path=DEFAULT_IMAGE):
 preview_file()
 
 def request_handler():
-    # extruction request
+    # extraction request
     if get_param("extract_req"):
         set_param("extract_req", False)
         thresh1 = get_param("threshold1_value")

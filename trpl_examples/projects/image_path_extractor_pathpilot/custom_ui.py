@@ -391,6 +391,7 @@ def b_spline_path_smoother(waypoints):
     _x, _y = interpolate.splev(u, tck)
     smooth = np.dstack((_x, _y))
     # print(smooth)
+    smooth = smooth.tolist()
     return smooth[0]
 
 def smooth_all_paths(paths):
@@ -450,7 +451,7 @@ def start(_paths):
         set_path_blending(True, 0)
         for _path in _paths:  # for every path  in c_paths[] list
             try:
-                if not _path:
+                if not len(_path):
                     notify("No c_path")
                     exit()
                 
@@ -462,14 +463,14 @@ def start(_paths):
                         movel(Pose(x, y))
                 movel(Pose(x, y, SAFE_HEIGHT))
                 #notify("Point: "+str(point), warning=True)
-            except:
-                log("Inner issue")
-                log(_path)
+            except Exception as e:
+                log("Inner issue:"+str(e))
+                #log(_path)
         sync()
         set_path_blending(False)
-    except:
-        log("Something is wrong")
-        log(_paths)
+    except Exception as e:
+        log("Something is wrong: "+str(e))
+        #log(_paths)
 
 
 def blend_n_run(batches):
@@ -527,7 +528,7 @@ def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
     global paths_map
     paths_map = final_paths
     
-    save_metadata(final_paths,non_mirror_final_paths)
+    #save_metadata(final_paths,non_mirror_final_paths)
    
     set_param("extracting_paths", False)
 
