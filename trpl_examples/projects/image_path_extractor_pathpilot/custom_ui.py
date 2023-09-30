@@ -393,6 +393,26 @@ def b_spline_path_smoother(waypoints):
     # print(smooth)
     smooth = smooth.tolist()
     return smooth[0]
+    
+def c_spline_path_smoother(waypoints):
+    if not waypoints:
+        return []
+    
+    waypoints = np.array(waypoints)
+    x = []
+    y = []
+
+    x = waypoints[:, 0]
+    y = waypoints[:, 1]
+
+    
+    tck, _ = interpolate.splprep([x,y])
+    u = np.linspace(0, 10, num=1000)
+    _x, _y = interpolate.splev(u, tck)
+    smooth = np.dstack((_x, _y))
+    # print(smooth)
+    smooth = smooth.tolist()
+    return smooth[0]
 
 def smooth_all_paths(paths):
     final = []
@@ -521,7 +541,7 @@ def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
     img, final_paths, non_mirror_final_paths = extract(temp_image, canny_threshold1=t1, canny_threshold2=t2)
     
     # Apply b-spline path smoother
-    #final_paths = smooth_all_paths(final_paths)
+    final_paths = smooth_all_paths(final_paths)
 
     img = cv_image_to_base64(img)
     set_param("image_view", img)
