@@ -391,6 +391,7 @@ def b_spline_path_smoother(waypoints):
     _x, _y = interpolate.splev(u, tck)
     smooth = np.dstack((_x, _y))
     # print(smooth)
+    smooth = smooth.tolist()
     return smooth[0]
 
 def smooth_all_paths(paths):
@@ -453,7 +454,7 @@ def start(_paths):
                 if not len(_path):
                     notify("No c_path")
                     exit()
-                
+                movel(Pose(_path[0][0], _path[0][1], SAFE_HEIGHT))
                 for point in _path:
                     if(point):
                         #log(point)

@@ -454,7 +454,7 @@ def start(_paths):
                 if not len(_path):
                     notify("No c_path")
                     exit()
-                
+                movel(Pose(_path[0][0], _path[0][1], 5))
                 for point in _path:
                     if(point):
                         #log(point)
