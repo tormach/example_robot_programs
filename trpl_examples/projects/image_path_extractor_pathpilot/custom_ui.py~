@@ -40,6 +40,7 @@ USER_FRAME = "drawing_user_frame"
 
 SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
 
+SMOOTH = True
 
 
 #MAX_WIDTH = 500
@@ -405,7 +406,7 @@ def c_spline_path_smoother(waypoints):
     x = waypoints[:, 0]
     y = waypoints[:, 1]
 
-
+    
     tck, _ = interpolate.splprep([x,y])
     u = np.linspace(0, 1, num=1000)
     _x, _y = interpolate.splev(u, tck)
@@ -541,7 +542,8 @@ def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
     img, final_paths, non_mirror_final_paths = extract(temp_image, canny_threshold1=t1, canny_threshold2=t2)
     
     # Apply b-spline path smoother
-    final_paths = smooth_all_paths(final_paths)
+    if SMOOTH:
+        final_paths = smooth_all_paths(final_paths)
 
     img = cv_image_to_base64(img)
     set_param("image_view", img)
