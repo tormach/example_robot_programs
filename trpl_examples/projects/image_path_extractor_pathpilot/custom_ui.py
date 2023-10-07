@@ -44,7 +44,7 @@ USER_FRAME = "drawing_user_frame"
 
 SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
 
-SMOOTH = True
+
 
 
 # MAX_WIDTH = 500
@@ -71,6 +71,8 @@ temp_image = None
 image = None
 
 paths_map = []
+
+SMOOTH = True
 
 view_files = {"files": []}
 
@@ -106,7 +108,7 @@ extract():
 
 
 def extract(
-    _image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THRESHOLD_2
+    _image, canny_threshold1=INIT_THRESHOLD_1, canny_threshold2=INIT_THRESHOLD_2, add_smoothing=False
 ):
     log("Getting ready to extract...")
 
@@ -157,7 +159,7 @@ def extract(
     non_mirror_contours, _ = cv2.findContours(
         image=non_mirror_img, mode=cv2.RETR_TREE, method=cv2.CHAIN_APPROX_SIMPLE
     )
-
+  
     final_paths = cv_contour_list_to_pathsList(contours)
     non_mirror_final_paths = cv_contour_list_to_pathsList(non_mirror_contours)
 
@@ -165,15 +167,23 @@ def extract(
 
     image_copy = _image.copy()
 
-    # draw contours on the copy image
-    image_copy = cv2.drawContours(
-        image=image_copy,
-        contours=contours,
-        contourIdx=-1,
-        color=(0, 255, 0),
-        thickness=1,
-        lineType=cv2.LINE_AA,
-    )
+    if add_smoothing:  # Apply b-spline path smoother
+        final_paths = smooth_all_paths(final_paths)
+        # Draw smooth paths or contours on the copy image
+        for _path in final_paths:
+            pts = np.array(_path, np.int32)
+            pts = pts.reshape((-1, 1, 2))
+            cv2.polylines(image_copy, [pts], False, (0, 255, 0), thickness=1, lineType=cv2.LINE_AA)
+    else:
+        # draw contours on the copy image
+        image_copy = cv2.drawContours(
+            image=image_copy,
+            contours=contours,
+            contourIdx=-1,
+            color=(0, 255, 0),
+            thickness=1,
+            lineType=cv2.LINE_AA,
+        )
 
     # Mirror the image horizontally
     image_copy = cv2.flip(image_copy, 1)
@@ -567,12 +577,9 @@ def handle_files(dir_path=""):
 def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
     set_param("extracting_paths", True)
     img, final_paths, non_mirror_final_paths = extract(
-        temp_image, canny_threshold1=t1, canny_threshold2=t2
+        temp_image, canny_threshold1=t1, canny_threshold2=t2, add_smoothing=get_param("add_smoothing")
     )
 
-    # Apply b-spline path smoother
-    if SMOOTH:
-        final_paths = smooth_all_paths(final_paths)
 
     img = cv_image_to_base64(img)
     set_param("image_view", img)
@@ -593,7 +600,7 @@ def handle_image_scale(w_scale):
 
 def handle_thresholding(t1, t2):
     set_param("extracting_paths", True)
-    img, paths_list, _ = extract(temp_image, canny_threshold1=t1, canny_threshold2=t2)
+    img, paths_list, _ = extract(temp_image, canny_threshold1=t1, canny_threshold2=t2, add_smoothing=get_param("add_smoothing"))
     img = cv_image_to_base64(img)
     global paths_map
     paths_map = paths_list
@@ -760,7 +767,7 @@ def request_handler():
 
 
 def main():
-    # Requests
+    # Request variables
     set_param("extract_req", False)
     set_param("imp_img_req", False)
     set_param("imp_json_req", False)
@@ -779,7 +786,7 @@ def main():
 
     set_param("draw_req", False)
 
-    # vars
+    # variables
     set_param("max_threshold", MAX_THRESHOLD)
     set_param("min_threshold", MIN_THRESHOLD)
 
@@ -808,6 +815,7 @@ def main():
 
     set_param("image_path_mode", "IMG")  # IMG, JSON, SVG
 
+    set_param("add_smoothing", True)
     # vars
     # set_param("image", "")
     # set_param("is_json_view", False)
@@ -815,4 +823,4 @@ def main():
     while True:
         request_handler()
         sleep(0.2)
-    exit()
+    # exit()

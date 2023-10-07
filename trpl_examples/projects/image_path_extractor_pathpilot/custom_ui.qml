@@ -302,7 +302,7 @@ RowLayout {
       visible: !Config.user.custom.isFileViewVisible
       PathPilotButton {
         enabled: !Config.user.custom.isDrawing
-        text: "Extract Paths"
+        text: "Extract"
         onClicked: Config.user.custom.extractReq = true
         width: 700
         
