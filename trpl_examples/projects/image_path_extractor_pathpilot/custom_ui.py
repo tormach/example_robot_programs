@@ -1,4 +1,5 @@
 from robot_command.rpl import *
+set_units("mm", "deg", "second")
 import rospy
 import base64
 import json
@@ -37,9 +38,6 @@ except:
     rospy.logwarn("INST-end:: " + str(time.strftime("%H:%M:%S", time.localtime())))
     set_param("installing_packages", False)
 
-
-set_units("mm", "deg")
-
 USER_FRAME = "drawing_user_frame"
 
 SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
@@ -67,8 +65,12 @@ DEFAULT_IMAGE = "./assets/tormach.png"
 
 curr_width = 0
 curr_height = 0
-temp_image = None
+
+image_view = None # For Zoom
+temp_image = None # Rendered on preview
 image = None
+
+zoom_scale = MIN_WIDTH
 
 paths_map = []
 
@@ -301,6 +303,28 @@ def scale_cv_image_WH(_image, scale_w=1):
     # self.set_image_width_height_labels(new_w, new_h)
 
     _image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+    return _image
+
+def zoom_image(_image, scale_w=1):
+    if _image is None:
+        log("[scale_cv_image()] Image is None ")
+        return
+    height, width, _ = _image.shape
+    _ratio = width / height
+    if width > height:
+        _ratio = height / width
+
+    if width > height:
+        new_w = scale_w
+        new_h = int(new_w * _ratio)
+    else:
+        new_h = scale_w
+        new_w = int(new_h * _ratio)
+
+    # log("W:H - "+str(width)+", "+str(height)+" RS: "+str(new_w)+", "+str(new_h)+" ratio:"+ str(_ratio))
+    # self.set_image_width_height_labels(new_w, new_h)
+
+    _image = cv2.resize(_image, (new_w, new_h), interpolation=cv2.INTER_AREA)
     return _image
 
 
@@ -547,8 +571,10 @@ def render_image_to_preview(img):
     if not len(img):
         log("render_image_to_preview: image issues")
         return
-    global temp_image
+    global temp_image, curr_height, curr_width, image_view
+
     temp_image = scale_cv_image_WH(img, MIN_WIDTH)
+    image_view = temp_image
     curr_height, curr_width, _ = temp_image.shape
     # Convert the image to base64 string
     base64_image = cv_image_to_base64(temp_image)
@@ -580,10 +606,11 @@ def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
         temp_image, canny_threshold1=t1, canny_threshold2=t2, add_smoothing=get_param("add_smoothing")
     )
 
-
+    global paths_map, image_view
+    image_view = img
     img = cv_image_to_base64(img)
     set_param("image_view", img)
-    global paths_map
+    
     paths_map = final_paths
 
     # save_metadata(final_paths,non_mirror_final_paths)
@@ -592,9 +619,25 @@ def handle_path_extraction(t1=INIT_THRESHOLD_1, t2=INIT_THRESHOLD_2):
 
 
 def handle_image_scale(w_scale):
-    global temp_image
+    global temp_image, curr_height, curr_width, image_view
+    
     temp_image = scale_cv_image_WH(image, w_scale)
+    image_view = temp_image
     str_img = cv_image_to_base64(temp_image)
+    
+    # curr_height, curr_width, _ = temp_image.shape
+    set_param("image_view", str_img)
+
+def handle_image_zoom(offset):
+    if offset == 0:
+        return
+    global zoom_scale, image_view, temp_image
+    # height, width, _ = _image.shape
+    zoom_scale = zoom_scale + offset
+    # log(str(zoom_scale))
+    image_view = zoom_image(image_view, zoom_scale)
+    str_img = cv_image_to_base64(image_view)
+    
     set_param("image_view", str_img)
 
 
@@ -737,7 +780,7 @@ def request_handler():
         # notify("json_view_req")
         # Do something ...
 
-    # Image scalling  request
+    # Image scaling  request (Width : Height)
     if get_param("width_req"):
         set_param("width_req", False)
         slider_value = get_param("width_scale")
@@ -764,6 +807,12 @@ def request_handler():
         set_param("draw_req", False)
         set_param("is_drawing", True)
         handle_drawing()
+    if get_param("zoom_req") is not 0:
+        offset = get_param("zoom_req")
+        set_param("zoom_req", 0)
+        # log("Zoom")
+        # handle zoom
+        handle_image_zoom(offset)
 
 
 def main():
@@ -785,6 +834,8 @@ def main():
     set_param("back_trace_req", False)
 
     set_param("draw_req", False)
+
+    set_param("zoom_req", 0)
 
     # variables
     set_param("max_threshold", MAX_THRESHOLD)
@@ -823,4 +874,3 @@ def main():
     while True:
         request_handler()
         sleep(0.2)
-    # exit()

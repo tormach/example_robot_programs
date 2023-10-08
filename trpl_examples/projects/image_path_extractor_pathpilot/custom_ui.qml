@@ -202,21 +202,39 @@ RowLayout {
           id: childItem
           source: "data:image/jpeg;base64, " + Config.user.custom.imageView
 
-        }
-        Text {
-          x: 160
-          y: 160
-          color: "Red"
-          visible: Config.user.custom.installingPackages || false
-          text: "(Wait) Installing packages..."
-          font.weight: Font.Bold
-        }
 
+          MouseArea {
+            anchors.fill: parent
+
+            onWheel: {
+              if (wheel.angleDelta.y > 0)
+              {
+                // scrolled up
+                Config.user.custom.zoomReq = 100
+              } else {
+              //scrolled down
+              Config.user.custom.zoomReq = -100
+            }
+          }
+        }
       }
+      Text {
+        x: 160
+        y: 160
+        color: "Red"
+        visible: Config.user.custom.installingPackages || false
+        text: "(Wait) Installing packages..."
+        font.weight: Font.Bold
+      }
+
+
+
+
     }
-
-
   }
+
+
+}
 }
 
 Text {
@@ -243,13 +261,14 @@ RowLayout {
     checked: Config.user.custom.addSmoothing
 
     onCheckedChanged: () => {
-      if (smoothSwitch.checked){
-        Config.user.custom.addSmoothing = true
-      }else{
-        Config.user.custom.addSmoothing = false
-      }
-    }
+    if (smoothSwitch.checked)
+    {
+      Config.user.custom.addSmoothing = true
+    }else {
+    Config.user.custom.addSmoothing = false
   }
+}
+}
 }
 
 RowLayout {
