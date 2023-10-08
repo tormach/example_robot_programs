@@ -202,7 +202,6 @@ RowLayout {
           id: childItem
           source: "data:image/jpeg;base64, " + Config.user.custom.imageView
 
-
           MouseArea {
             anchors.fill: parent
 
@@ -217,6 +216,7 @@ RowLayout {
             }
           }
         }
+
       }
       Text {
         x: 160

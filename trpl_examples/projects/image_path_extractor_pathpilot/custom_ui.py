@@ -46,7 +46,7 @@ SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
 
 
 # MAX_WIDTH = 500
-MAX_WIDTH = 1500
+MAX_WIDTH = 250
 MIN_WIDTH = 150
 
 INIT_THRESHOLD_1 = 50
@@ -631,12 +631,12 @@ def handle_image_scale(w_scale):
 def handle_image_zoom(offset):
     if offset == 0:
         return
-    global zoom_scale, image_view, temp_image
+    global zoom_scale, image_view
     # height, width, _ = _image.shape
     zoom_scale = zoom_scale + offset
     # log(str(zoom_scale))
-    image_view = zoom_image(image_view, zoom_scale)
-    str_img = cv_image_to_base64(image_view)
+     
+    str_img = cv_image_to_base64(zoom_image(image_view, zoom_scale))
     
     set_param("image_view", str_img)
 
