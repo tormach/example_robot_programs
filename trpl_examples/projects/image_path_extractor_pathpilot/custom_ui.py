@@ -40,7 +40,8 @@ except:
 
 USER_FRAME = "drawing_user_frame"
 
-SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
+# SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg", ".svg"]
+SUPPORTED_VIEW_FILE_EXT = [".json", ".png", ".jpeg", ".jpg",]  # ".svg" is removed for now till loading issues are fixed
 
 
 
