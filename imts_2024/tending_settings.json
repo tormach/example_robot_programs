@@ -1,0 +1,55 @@
+{
+  "workpiece": {
+    "x": 0.1206,
+    "y": 0.1016,
+    "z": 0.0381,
+    "x_clearance": 0.02,
+    "y_clearance": 0.035
+  },
+  "ready_part": {
+    "x": 0.118,
+    "y": 0.101,
+    "z": 0.0312,
+    "x_clearance": 0.02,
+    "y_clearance": 0.035
+  },
+  "lidar_settings": {
+    "z_global_clearance": 0.065,
+    "z_refined_clearance": 0.065,
+    "z_min": -0.005,
+    "z_max": 0.015
+  },
+  "icp_settings": {
+    "num_vertices_in_group": 100,
+    "cluster_eps": 0.01,
+    "z": 0.5
+  },
+  "stack_settings": {
+    "max_layers": 2,
+    "safe_z_lift": 0.2,
+    "z_right_above": 0.01,
+    "z_torque_check": -0.003,
+    "z_grasp": -0.015
+  },
+  "placement_settings": {
+    "roi_min": [
+      -0.75,
+      0.17,
+      0.082
+    ],
+    "roi_max": [
+      -0.4,
+      0.53,
+      0.21
+    ],
+    "layer_translation": [
+      -0.01,
+      0.01
+    ]
+  },
+  "global_scan_after_layer": true,
+  "counter_settings": {
+    "processed_objects": 0,
+    "total_processed_objects": 0
+  }
+}

@@ -1,0 +1,49 @@
+waypoints:
+  - name: home_wpt
+    position:
+      x: 0
+      y: 0
+    feedrate: 1200
+    description: Beginning of the path
+
+  - name: before_op1_pick_wpt
+    position:
+      x: -1.89
+      y: -0.1659
+    feedrate: 200
+    description: First turn in the path
+
+  - name: op1_pick_wpt
+    position:
+      x: -5.9075
+      y: -0.1659
+    feedrate: 30
+    description: Elevation change
+
+  - name: op2_pick_wpt
+    position:
+      x: -5.9075
+      y: -6.2743
+    feedrate: 1200
+    description: Final destination
+
+  - name: op2_before_place_wpt
+    position:
+      x: 0.0
+      y: -0.2873
+    feedrate: 1200
+    description: Final destination
+
+  - name: op2_place_wpt
+    position:
+      x: -4.7152
+      y: -0.2873
+    feedrate: 1200
+    description: Final destination
+
+  - name: op2_after_place_wpt
+    position:
+      x: 1
+      y: -0.2873
+    feedrate: 80
+    description: Final destination
