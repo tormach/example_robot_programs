@@ -23,6 +23,8 @@ from tending_settings import TendingSettings, LidarSettings
 torque_comparator = JointTorqueComparator(torque_thresh=20.0)
 lidar_handler = LidarServiceHandler()
 
+from integer_in_file import read_int_from_file, write_int_to_file
+
 
 def refine_pose_icp(initial_pose: ROSPose, settings: TendingSettings):
     SAFETY_LIDAR_OFFSET = 0.015
@@ -245,6 +247,7 @@ def fetch_workpiece_from_stack(part_id: int, settings: TendingSettings):
     if not os.path.exists(LIDAR_GLOBAL_FINDINGS_FILE):
         layer_number = settings.stack_settings.max_layers
         object_ros_poses = radial_scan(layer_number, settings)
+        write_int_to_file(len(object_ros_poses), "columns_in_top_layer.txt")
         save_poses_to_csv(object_ros_poses)
 
     object_ros_poses = read_poses_from_csv()
@@ -258,12 +261,22 @@ def fetch_workpiece_from_stack(part_id: int, settings: TendingSettings):
         # settings.stack_settings.max_layers -= 1
         layer_number = settings.stack_settings.max_layers - 1
         object_ros_poses = radial_scan(layer_number, settings)
+        write_int_to_file(len(object_ros_poses), "columns_in_other_layers.txt")
         save_poses_to_csv(object_ros_poses)
         settings.global_scan_after_layer = False
 
     object_ros_poses = read_poses_from_csv()
     num_stacks = len(object_ros_poses)
-    completed_stack_levels = part_id // num_stacks
+
+    other_columns_value = read_int_from_file("columns_in_other_layers.txt")
+
+    if other_columns_value > 0:
+        top_layer_value = read_int_from_file("columns_in_top_layer.txt")
+        completed_stack_levels = ( ( part_id - top_layer_value) // num_stacks ) + 1
+        corrected_part_id = ( part_id - top_layer_value ) % num_stacks
+    else:
+        completed_stack_levels = part_id  // num_stacks
+        corrected_part_id = part_id % num_stacks
 
     stack_level = settings.stack_settings.max_layers - completed_stack_levels
 
@@ -274,7 +287,8 @@ def fetch_workpiece_from_stack(part_id: int, settings: TendingSettings):
         return None
 
     current_stack_height = stack_level * settings.workpiece.z
-    ros_pose = object_ros_poses[part_id % num_stacks]
+
+    ros_pose = object_ros_poses[corrected_part_id]
     ros_pose.position.z = settings.stack_settings.safe_z_lift
     _, ros_pose_pre_initial = prepare_gripper_pose(ros_pose)
     rospy.logwarn("Checkpoint -1A")
