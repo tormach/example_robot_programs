@@ -15,6 +15,8 @@ from math import pi
 import numpy as np
 import os
 
+from integer_in_file import write_int_to_file
+
 cnc_handler = RobotMachineWatchdogHandler()
 
 set_units("mm", "deg", "s")
@@ -82,6 +84,9 @@ def main():
             os.remove(POSES_FILE_PATH)
             print(f"'{POSES_FILE_PATH}' has been removed.")
 
+        # reset values of detected workpieces with global lidar scan
+        write_int_to_file(0, "columns_in_top_layer.txt")
+        write_int_to_file(0, "columns_in_other_layers.txt")
         settings = load_and_check_tending_settings()
 
 
