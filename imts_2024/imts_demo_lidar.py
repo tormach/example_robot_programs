@@ -25,12 +25,15 @@ CLEAR_DISTANCE = 200
 TENDING_SETTINGS_FILENAME = "tending_settings.json"
 POSES_FILE_PATH='radial_swipe_poses.csv'
 MACHINE_WAYPOINTS_FILE = "machine_waypoints.yaml"
+PLACE_VEL = 40
+PICK_VEL = 80
 
 cnc_waypoints = read_machine_waypoints(MACHINE_WAYPOINTS_FILE)
 
 home_wpt = cnc_waypoints["home_wpt"]
 before_op1_pick_wpt = cnc_waypoints["before_op1_pick_wpt"]
 op1_pick_wpt = cnc_waypoints["op1_pick_wpt"]
+op1_place_wpt = cnc_waypoints["op1_place_wpt"]
 op2_pick_wpt = cnc_waypoints["op2_pick_wpt"]
 op2_before_place_wpt = cnc_waypoints["op2_before_place_wpt"]
 op2_place_wpt = cnc_waypoints["op2_place_wpt"]
@@ -105,7 +108,8 @@ def main():
     aout_60, aout_61 = get_workcell_reported_state()
     if aout_60 == -1.0:
         notify("Mill program has aborted because the probe routine shows that the workpiece is out of position.  Fix and click OK to continue or abort.", warning=True)
-
+    elif aout_60 == 1.0:
+        notify("Mill program was stopped for an unknown reason before finishing the previous part.  Fix and click OK to continue.", warning=True)
     set_units("mm", "deg", "s")
     move_into_mill()
     movej(through_window, velocity_scale=1.0)
@@ -127,8 +131,8 @@ def move_into_mill():
     limits_low = (300, -50, 170, -170, -50, -120.0)
     limits_high = (800, 550, 900, 170, 50, 50.0)
 
-    if not validate_pose(limits_low, limits_high):
-        notify("Robot is not in a valid position to move into mill.  Please fix and restart.", error=True)
+    """if not validate_pose(limits_low, limits_high):
+        notify("Robot is not in a valid position to move into mill.  Please fix and restart.", error=True)"""
 
     set_units("mm", "deg", "s")
     movej(post_check)
@@ -185,20 +189,21 @@ def pick_from_op1_vise():
     movej(temp_wp)
     
     # move will relatively quickly to a place where we're about to engage the grippper
-    move_mill_safely(wpt=before_op1_pick_wpt.position, feedrate=before_op1_pick_wpt.feedrate)
+    move_mill(wpt=before_op1_pick_wpt.position, feedrate=before_op1_pick_wpt.feedrate)
     
     # now take our time
-    move_mill_safely(wpt=op1_pick_wpt.position, feedrate=op1_pick_wpt.feedrate)
+    # use G54 for this one because we probed it earlier and know exactly where it is
+    move_mill_safely(wpt=op1_pick_wpt.position, feedrate=op1_pick_wpt.feedrate, move_type="G54 G1")
 
     # down a bit to engage top of gripper
-    movel(flipping_grasp, velocity=25, accel_scale=0.5)
+    movel(flipping_grasp, velocity=PLACE_VEL, accel_scale=0.5)
     
     # close gripper and open vise
     close_gripper()
     open_vise("vise_1")
     
     # move to up and away to clear distance
-    movei(z=CLEAR_DISTANCE, vel=50, accel_scale=0.5)
+    movei(z=CLEAR_DISTANCE, vel=PICK_VEL, accel_scale=0.5)
     movej(safe_op1_transition)
 
 
@@ -211,21 +216,21 @@ def place_in_op1_vise():
 
     # these next four instructions are redundant if pick_from_op1_vise is called first
     movej(safe_op1_transition)
-    move_mill(wpt=op1_pick_wpt.position, feedrate=op1_pick_wpt.feedrate)
+    move_mill(wpt=op1_place_wpt.position, feedrate=op1_place_wpt.feedrate)
     # make sure vise_2 is closed so vise_1 has room to open and don't sleep on it
     set_digital_out("vise_2", False) 
     set_digital_out("vise_1", True)
     
     movej(vision_pre_grasp, velocity_scale=1.0)
     movel(vision_pre_grasp)
-    movei(z=-(DISTANCE_ABOVE_PART+2), vel=40, accel_scale=0.5)
+    movei(z=-(DISTANCE_ABOVE_PART), vel=PLACE_VEL, accel_scale=0.5)
     
     # open gripper and close vise
     open_gripper()
     close_vise("vise_1")
 
     # linear move to clear position
-    movel(vision_pre_grasp, velocity=50, accel_scale=0.5)
+    movel(vision_pre_grasp, velocity=PICK_VEL, accel_scale=0.5)
 
 
 def pick_from_op2_vise():
@@ -242,14 +247,14 @@ def pick_from_op2_vise():
 
     tmp = vision_pre_grasp.copy()
     tmp.z = 0
-    movel(tmp, velocity=40, accel_scale=0.5)
+    movel(tmp, velocity=PICK_VEL, accel_scale=0.5)
     
     # vise one should already be closed, but in case it's not, vise 2 needs room to open so make sure
     set_digital_out("vise_1", False) 
     close_gripper()
     open_vise("vise_2")
     # linear move to clear position
-    movel(vision_pre_grasp, velocity=50, accel_scale=0.5)
+    movel(vision_pre_grasp, velocity=PLACE_VEL, accel_scale=0.5)
     movei(z=100)
 
 
@@ -269,12 +274,17 @@ def place_in_op2_vise():
     temp_wp = flipping_grasp_vise_2.copy()
     temp_wp.z += DISTANCE_ABOVE_PART
     movej(temp_wp)
-    movel(flipping_grasp_vise_2, velocity=40, accel_scale=0.5)
+    movel(flipping_grasp_vise_2, velocity=PLACE_VEL, accel_scale=0.5)
+    # close_vise("vise_2")
     open_gripper()
     movei(z=-1.0)
     close_vise("vise_2")
     # move to clear distance
     move_mill_safely(wpt=op2_after_place_wpt.position, feedrate=op2_after_place_wpt.feedrate)
+    # settle the vise
+    #open_vise("vise_2")
+    #close_vise("vise_2")
+
 
 
 # UTILITIES

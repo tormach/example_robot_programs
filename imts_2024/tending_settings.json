@@ -25,7 +25,7 @@
     "z": 0.5
   },
   "stack_settings": {
-    "max_layers": 2,
+    "max_layers": 1,
     "safe_z_lift": 0.2,
     "z_right_above": 0.01,
     "z_torque_check": -0.003,

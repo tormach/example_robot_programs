@@ -15,10 +15,17 @@ waypoints:
 
   - name: op1_pick_wpt
     position:
-      x: -5.9075
-      y: -0.1659
+      x: -10.1217
+      y: -2.6110
     feedrate: 30
-    description: Elevation change
+    description: Use G54 so we get it spot on every time
+
+  - name: op1_place_wpt
+    position:
+      x: -5.69
+      y: -.1633
+    feedrate: 1200
+    description: G59 for place, not G54 so things don't wander
 
   - name: op2_pick_wpt
     position:

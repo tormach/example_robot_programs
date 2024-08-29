@@ -205,7 +205,7 @@ def radial_scan(layer_number: int, settings: TendingSettings):
     r_inc = 0.1
     passes = 5
 
-    final_theta = pi/3
+    final_theta = pi/2
 
     lidar_handler.lidar_off()
     sleep(0.1)
