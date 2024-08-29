@@ -15,8 +15,8 @@ waypoints:
 
   - name: op1_pick_wpt
     position:
-      x: -10.1217
-      y: -2.6110
+      x: -12.4828
+      y: -0.6126
     feedrate: 30
     description: Use G54 so we get it spot on every time
 
