@@ -108,8 +108,16 @@ def main():
     aout_60, aout_61 = get_workcell_reported_state()
     if aout_60 == -1.0:
         notify("Mill program has aborted because the probe routine shows that the workpiece is out of position.  Fix and click OK to continue or abort.", warning=True)
+        # user might hit OK to continue, make sure we don't just continue blindly while mill is still working
+        while get_pathpilot_state(instance="1500MX") != "ready":
+            sync()
+            sleep(.5)
     elif aout_60 == 1.0:
         notify("Mill program was stopped for an unknown reason before finishing the previous part.  Fix and click OK to continue.", warning=True)
+        # user might hit OK to continue, make sure we don't just continue blindly while mill is still working
+        while get_pathpilot_state(instance="1500MX") != "ready":
+            sync()
+            sleep(.5)
     set_units("mm", "deg", "s")
     move_into_mill()
     movej(through_window, velocity_scale=1.0)
