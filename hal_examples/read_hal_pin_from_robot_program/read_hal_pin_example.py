@@ -1,5 +1,5 @@
 from robot_command.rpl import *
-from machinekit import hal
+import machinekit.hal.pyhal as hal
 
 
 def main():
